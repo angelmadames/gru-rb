@@ -12,4 +12,4 @@ GITHUB_REPO_LABEL_ENDPOINT = "/repos/#{owner}/#{repo}/labels"
 GITHUB_REST_API_HEADERS = {
   Accept: 'application/vnd.github.v3+json',
   Authorization: "token #{token}"
-}
+}.freeze

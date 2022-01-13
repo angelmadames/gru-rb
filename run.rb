@@ -7,7 +7,7 @@ require_relative 'config/labels'
 require_relative 'utils/http_client'
 require_relative 'utils/uri_encoder'
 
-labels_to_delete = Array.new
+labels_to_delete = []
 
 client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
 res = client.get(GITHUB_REPO_LABEL_ENDPOINT)
