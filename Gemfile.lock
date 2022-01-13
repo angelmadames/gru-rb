@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dotenv (2.7.6)
+    faraday (2.0.1)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.1)
+    ruby2_keywords (0.0.5)
+
+PLATFORMS
+  x86_64-darwin-21
+
+DEPENDENCIES
+  dotenv
+  faraday
+
+BUNDLED WITH
+   2.2.32
