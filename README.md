@@ -36,8 +36,8 @@ of writing this script thus why it is written in Ruby.
 Run the script on your terminal:
 
 ```shell
-./main.rb
+./run.rb
 
 # Or
-ruby main.rb
+ruby run.rb
 ```
