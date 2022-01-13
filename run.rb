@@ -10,7 +10,7 @@ require_relative 'utils/uri_encoder'
 labels_to_delete = []
 
 client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
-res = client.get(GITHUB_REPO_LABEL_ENDPOINT)
+res    = client.get(GITHUB_REPO_LABEL_ENDPOINT)
 
 data = JSON.parse(res.body)
 data.each do |label|
@@ -26,7 +26,7 @@ end
 
 LABELS.each do |name, color|
   body = {
-    name: name,
+    name:  name,
     color: color
   }.to_json
 

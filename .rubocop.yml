@@ -1,0 +1,10 @@
+---
+AllCops:
+  NewCops: enable
+
+Layout/ExtraSpacing:
+  ForceEqualSignAlignment: true
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table

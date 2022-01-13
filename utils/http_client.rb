@@ -7,7 +7,7 @@ def http_client(url, headers)
   Faraday.default_adapter = :net_http
 
   Faraday.new(
-    url: url,
+    url:     url,
     headers: headers
   )
 end
