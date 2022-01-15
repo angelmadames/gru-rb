@@ -6,7 +6,7 @@ require_relative 'src/lib/delete'
 require_relative 'src/lib/add'
 
 def run
-  # Deletes existing labels
+  # Delete existing labels
   LabelsUpdater.delete
 
   # Add new labels set in LABELS (config/labels.rb)
