@@ -5,7 +5,7 @@ require_relative '../../config/github'
 require_relative '../utils/http_client'
 require_relative '../utils/uri_encoder'
 
-module LabelsUpdater
+module Labels
   module_function
 
   def delete

@@ -5,7 +5,7 @@ require_relative '../../config/github'
 require_relative '../../config/labels'
 require_relative '../utils/http_client'
 
-module LabelsUpdater
+module Labels
   module_function
 
   def add(labels)
