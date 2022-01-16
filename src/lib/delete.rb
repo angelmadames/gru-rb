@@ -9,15 +9,11 @@ module LabelsUpdater
   module_function
 
   def delete
-    labels_to_delete = []
-
     client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
     res    = client.get(GITHUB_REPO_LABEL_ENDPOINT)
     labels = JSON.parse(res.body)
 
-    labels.each do |label|
-      labels_to_delete.push(label['name'])
-    end
+    labels_to_delete = labels.map { |label| label['name'] }
 
     labels_to_delete.each do |label|
       encoded_label = uri_encode(label)
