@@ -17,6 +17,8 @@ to a specified repository.
 
 - Create the dotenv (`.env`) file using the example `.env.example`
   file and update it accordingly.
+  - If you don't want existing labels to be deleted, set
+    `DELETE_EXISTING_LABELS` to `false`.
 - Install the script dependencies using `bundle`:
 
   ```shell

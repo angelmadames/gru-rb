@@ -2,9 +2,9 @@
 
 require 'dotenv/load'
 
-owner = ENV['GITHUB_OWNER']
-repo  = ENV['GITHUB_REPO']
-token = ENV['GITHUB_TOKEN']
+owner = ENV.fetch('GITHUB_OWNER')
+repo  = ENV.fetch('GITHUB_REPO')
+token = ENV.fetch('GITHUB_TOKEN')
 
 GITHUB_BASE_API_URL        = 'https://api.github.com'
 GITHUB_REPO_LABEL_ENDPOINT = "/repos/#{owner}/#{repo}/labels"
