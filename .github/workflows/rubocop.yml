@@ -1,0 +1,24 @@
+name: tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current project revision
+        uses: actions/checkout@v3
+
+      - name: Configure Ruby environment
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.3'
+
+      - name: Install Rubocop
+        run: gem install rubocop
+
+      - name: Run lint task with Rubocop
+        run: rubocop

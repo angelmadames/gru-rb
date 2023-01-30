@@ -5,6 +5,9 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
+Style/HashSyntax:
+  Enabled: false
+
 Metrics/MethodLength:
   Enabled: false
 
