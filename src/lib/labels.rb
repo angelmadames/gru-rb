@@ -2,11 +2,24 @@
 
 require 'json'
 require_relative '../../config/github'
+require_relative '../../config/labels'
 require_relative '../utils/http_client'
-require_relative '../utils/uri_encoder'
 
 module Labels
   module_function
+
+  def add(labels)
+    client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
+    labels.each do |name, color|
+      body = {
+        name:  name,
+        color: color
+      }.to_json
+
+      client.post(GITHUB_REPO_LABEL_ENDPOINT, body)
+      puts "Added label: #{name}"
+    end
+  end
 
   def delete
     client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
@@ -19,7 +32,7 @@ module Labels
       encoded_label = uri_encode(label)
 
       res = client.delete("#{GITHUB_REPO_LABEL_ENDPOINT}/#{encoded_label}")
-      puts "Removed label #{label} successfully!"
+      puts "Removed label: #{label}"
     end
   end
 end
