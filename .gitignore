@@ -3,11 +3,12 @@
 *.gem
 *.rbc
 /.config
+/.idea/
 /coverage/
 /InstalledFiles
 /pkg/
-/spec/reports/
 /spec/examples.txt
+/spec/reports/
 /test/tmp/
 /test/version_tmp/
 /tmp/

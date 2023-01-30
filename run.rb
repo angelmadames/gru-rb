@@ -3,15 +3,19 @@
 
 require 'dotenv/load'
 require_relative 'config/labels'
+require_relative 'config/repository'
 require_relative 'src/lib/labels'
+require_relative 'src/lib/repository'
 
 def run
   # Delete existing labels
   Labels.delete if ENV.fetch('DELETE_EXISTING_LABELS') == true
 
-  # Add new labels set in LABELS (config/labels.rb)
+  # Add or update labels in config/labels.rb
   Labels.add(LABELS)
-  puts "All labels for repo '#{ENV.fetch('GITHUB_REPO')}' were updated!"
+
+  # Add or update settings in config/repository.rb
+  Repository.update(DEFAULT_REPOSITORY_CONFIG)
 end
 
 run if $PROGRAM_NAME == __FILE__

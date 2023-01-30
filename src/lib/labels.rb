@@ -19,6 +19,8 @@ module Labels
       client.post(GITHUB_REPO_LABEL_ENDPOINT, body)
       puts "Added label: #{name}"
     end
+
+    puts "All labels for repo '#{ENV.fetch('GITHUB_REPO')}' were updated!"
   end
 
   def delete
@@ -34,5 +36,7 @@ module Labels
       res = client.delete("#{GITHUB_REPO_LABEL_ENDPOINT}/#{encoded_label}")
       puts "Removed label: #{label}"
     end
+
+    puts "All existing labels for repo '#{ENV.fetch('GITHUB_REPO')}' were deleted!"
   end
 end
