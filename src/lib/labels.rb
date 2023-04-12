@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
 require 'json'
-require_relative '../../config/github'
-require_relative '../../config/labels'
-require_relative '../utils/http_client'
 
 module Labels
   module_function
 
+  def client
+    Http.client(Config::Github.endpoints[:base], Config::Github.headers)
+  end
+
   def add(labels)
-    client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
     labels.each do |name, color|
       body = {
         name:  name,
         color: color
       }.to_json
 
-      client.post(GITHUB_REPO_LABEL_ENDPOINT, body)
-      puts "Added label: #{name}"
+      res = client.post(Config::Github.endpoints[:repo_label], body)
+      Http.handle_response(res, "Added label: #{name}")
     end
 
-    puts "All labels for repo '#{ENV.fetch('GITHUB_REPO')}' were updated!"
+    Http.handle_response(res, 'All labels were updated!')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def delete
-    client = http_client(GITHUB_BASE_API_URL, GITHUB_REST_API_HEADERS)
-    res    = client.get(GITHUB_REPO_LABEL_ENDPOINT)
+    res    = client.get(Config::Github.endpoints[:repo_label])
     labels = JSON.parse(res.body)
 
     labels_to_delete = labels.map { |label| label['name'] }
@@ -33,10 +33,11 @@ module Labels
     labels_to_delete.each do |label|
       encoded_label = uri_encode(label)
 
-      res = client.delete("#{GITHUB_REPO_LABEL_ENDPOINT}/#{encoded_label}")
-      puts "Removed label: #{label}"
+      res = client.delete("#{Config::Github.endpoints[:repo_label]}/#{encoded_label}")
+      Http.handle_response(res, "Removed label: #{label}")
     end
 
-    puts "All existing labels for repo '#{ENV.fetch('GITHUB_REPO')}' were deleted!"
+    Http.handle_response(res, 'All existing labels were deleted!')
   end
+  # rubocop:enable Metrics/AbcSize
 end

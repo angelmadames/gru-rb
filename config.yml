@@ -1,0 +1,24 @@
+---
+# General repository settings
+repository:
+  has_issues: true
+  has_projects: true
+  has_wiki: false
+  allow_squash_merge: true
+  allow_rebase_merge: false
+  allow_merge_merge: false
+  allow_auto_merge: true
+  delete_branch_on_merge: true
+
+# Label names and their respective colors
+labels:
+  bugfix: F9D0C4
+  doc: 0075ca
+  enhance: AFC7F1
+  feature: 0052CC
+  review_approved: 0E8A16
+  review_pending: BFDADC
+  qa_approved: C2E0C6
+  qa_pending: FEF2C0
+  refactor: FBCA04
+  wip: D4C5F9
