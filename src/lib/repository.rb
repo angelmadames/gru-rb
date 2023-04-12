@@ -14,6 +14,6 @@ module Repository
 
     res = client.patch(Config::Github.endpoints[:repo], body)
 
-    Http.response_handle(res, 'All default settings were applied!')
+    Http.handle_response(res, 'All default settings were applied!')
   end
 end
