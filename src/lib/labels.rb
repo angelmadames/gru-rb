@@ -23,6 +23,7 @@ module Labels
     Http.handle_response(res, 'All labels were updated!')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def delete
     res    = client.get(Config::Github.endpoints[:repo_label])
     labels = JSON.parse(res.body)
@@ -38,4 +39,5 @@ module Labels
 
     Http.handle_response(res, 'All existing labels were deleted!')
   end
+  # rubocop:enable Metrics/AbcSize
 end
