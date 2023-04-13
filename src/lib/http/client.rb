@@ -14,13 +14,4 @@ module Http
       headers: headers
     )
   end
-
-  def response_handle(res, msg)
-    if res.status == 200
-      puts msg
-    else
-      puts 'Error:'
-      puts res.reason_phrase
-    end
-  end
 end

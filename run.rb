@@ -4,7 +4,8 @@
 Dir['src/**/*.rb'].each { |file| require_relative file }
 
 def run
-  puts "Updating '#{Config::Github::REPO}' repository…"
+  puts "Updating '#{Config::Github::REPO}' repository"
+  puts
 
   Labels.delete if Config::Labels.delete_existing?
 
