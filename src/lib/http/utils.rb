@@ -7,7 +7,11 @@ module Http
   module_function
 
   def uri_encode(uri)
-    ERB::Util.url_encode(uri) if uri.include?(' ')
+    if uri.include?(' ')
+      ERB::Util.url_encode(uri)
+    else
+      uri
+    end
   end
 
   def response_decode(res)

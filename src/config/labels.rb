@@ -9,7 +9,7 @@ module Config
     end
 
     def delete_existing?
-      ENV['DELETE_EXISTING_LABELS'] == true
+      ENV['DELETE_EXISTING_LABELS'] == 'true'
     end
   end
 end

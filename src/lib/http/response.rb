@@ -5,7 +5,7 @@ module Http
 
   def handle_response(res, msg, type = nil)
     case res.status
-    when 200, 201
+    when 200, 201, 204
       if type
         puts "#{msg}: #{type}"
       else
