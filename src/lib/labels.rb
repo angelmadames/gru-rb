@@ -10,7 +10,7 @@ module Labels
   end
 
   def add(labels)
-    puts 'Adding labels…'
+    puts '➕ Adding labels…'
 
     labels.each do |name, color|
       body = {
@@ -19,13 +19,13 @@ module Labels
       }.to_json
 
       res = client.post(Config::Github.endpoints[:repo_label], body)
-      Http.handle_response(res, 'Added', name)
+      Http.handle_response(res, '✅ Added:', name)
     end
   end
 
   # rubocop:disable Metrics/AbcSize
   def delete
-    puts 'Deleting labels…'
+    puts '🗑️ Deleting labels…'
 
     res    = client.get(Config::Github.endpoints[:repo_label])
     labels = JSON.parse(res.body)
@@ -33,10 +33,15 @@ module Labels
     labels_to_delete = labels.map { |label| label['name'] }
 
     labels_to_delete.each do |name|
+      if Config::Labels.colors.include? name
+        puts "➡️ Not removed, it's going to be added: #{name}"
+        next
+      end
+
       encoded_label = Http.uri_encode(name)
 
       res = client.delete("#{Config::Github.endpoints[:repo_label]}/#{encoded_label}")
-      Http.handle_response(res, 'Removed', name)
+      Http.handle_response(res, '✅ Removed:', name)
     end
   end
   # rubocop:enable Metrics/AbcSize
