@@ -19,7 +19,7 @@ module Labels
       }.to_json
 
       res = client.post(Config::Github.endpoints[:repo_label], body)
-      Http.handle_response(res, '✅ Added:', name)
+      Http.handle_response(res, '✅ Added', name)
     end
   end
 
@@ -41,7 +41,7 @@ module Labels
       encoded_label = Http.uri_encode(name)
 
       res = client.delete("#{Config::Github.endpoints[:repo_label]}/#{encoded_label}")
-      Http.handle_response(res, '✅ Removed:', name)
+      Http.handle_response(res, '✅ Removed', name)
     end
   end
   # rubocop:enable Metrics/AbcSize
