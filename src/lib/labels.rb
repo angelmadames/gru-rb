@@ -13,6 +13,11 @@ module Labels
     puts '➕ Adding labels…'
 
     labels.each do |name, color|
+      if Config::Labels.colors.include? name
+        puts "➡️ Already added: #{name}"
+        next
+      end
+
       body = {
         name:  name,
         color: color
@@ -24,17 +29,17 @@ module Labels
   end
 
   # rubocop:disable Metrics/AbcSize
-  def delete
-    puts '🗑️ Deleting labels…'
+  def remove
+    puts '🗑️ Removing labels…'
 
     res    = client.get(Config::Github.endpoints[:repo_label])
     labels = JSON.parse(res.body)
 
-    labels_to_delete = labels.map { |label| label['name'] }
+    labels_to_remove = labels.map { |label| label['name'] }
 
-    labels_to_delete.each do |name|
+    labels_to_remove.each do |name|
       if Config::Labels.colors.include? name
-        puts "➡️ Not removed, it's going to be added: #{name}"
+        puts "➡️ Not removed, meant to be added: #{name}"
         next
       end
 

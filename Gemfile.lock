@@ -7,6 +7,7 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
     ruby2_keywords (0.0.5)
+    thor (1.2.1)
 
 PLATFORMS
   arm64-darwin-21
@@ -14,6 +15,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   faraday
+  thor (~> 1.2)
 
 BUNDLED WITH
    2.4.12
