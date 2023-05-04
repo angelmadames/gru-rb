@@ -9,11 +9,18 @@ module Labels
     Http.client(Config::Github.endpoints[:base], Config::Github.headers)
   end
 
+  def existing
+    res = client.get(Config::Github.endpoints[:repo_label])
+    JSON.parse(res.body)
+  end
+
   def add(labels)
     puts '➕ Adding labels…'
 
+    existing_label_names = existing.map { |label| label['name'] }
+
     labels.each do |name, color|
-      if Config::Labels.colors.include? name
+      if existing_label_names.include? name
         puts "➡️ Already added: #{name}"
         next
       end
@@ -30,23 +37,24 @@ module Labels
 
   # rubocop:disable Metrics/AbcSize
   def remove
-    puts '🗑️ Removing labels…'
+    puts '🗑️ Removing existing labels…'
 
-    res    = client.get(Config::Github.endpoints[:repo_label])
-    labels = JSON.parse(res.body)
+    if existing.empty?
+      puts 'ℹ️ Repository has no labels to remove.'
+      return
+    end
 
-    labels_to_remove = labels.map { |label| label['name'] }
+    labels_to_remove = existing.map { |label| label['name'] }
 
     labels_to_remove.each do |name|
       if Config::Labels.colors.include? name
         puts "➡️ Not removed, meant to be added: #{name}"
-        next
+      else
+        encoded_label = Http.uri_encode(name)
+
+        res = client.delete("#{Config::Github.endpoints[:repo_label]}/#{encoded_label}")
+        Http.handle_response(res, '✅ Removed', name)
       end
-
-      encoded_label = Http.uri_encode(name)
-
-      res = client.delete("#{Config::Github.endpoints[:repo_label]}/#{encoded_label}")
-      Http.handle_response(res, '✅ Removed', name)
     end
   end
   # rubocop:enable Metrics/AbcSize

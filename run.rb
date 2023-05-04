@@ -15,13 +15,8 @@ class RepositoryUpdater < Thor
   end
 
   desc 'add-labels', 'Add labels to repository'
-  method_option :remove_existing,
-                :type    => :boolean,
-                :default => false,
-                :aliases => '-d',
-                :desc    => 'Remove labels not in config.yml'
   def add_labels
-    Labels.remove if options[:delete_existing]
+    Labels.remove if Config::Labels.delete_existing?
     Labels.add(Config::Labels.colors)
   end
 
