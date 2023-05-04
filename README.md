@@ -43,9 +43,10 @@ to an specified repository.
 Run the script on your terminal:
 
 ```shell
-bundle exec run.rb add_labels
-bundle exec run.rb update_settings
+bundle exec run.rb add-labels
+bundle exec run.rb remove-labelsg
+bundle exec run.rb update-settings
 
 bundle exec run.rb help            # Show all available commands
-bundle exec run.rb help add_labels # Show help for a command
+bundle exec run.rb help add-labels # Show help for a command
 ```
