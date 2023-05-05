@@ -2,6 +2,8 @@
 
 # GitHub Repository Updater
 
+![lint](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml/badge.svg)
+
 <!-- omit in toc -->
 - [GitHub Repository Updater](#github-repository-updater)
   - [Summary](#summary)
