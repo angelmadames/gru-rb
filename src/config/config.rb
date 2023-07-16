@@ -4,5 +4,5 @@ require 'yaml'
 
 module Config
   CONFIG_FILE = File.join('config.yml')
-  VALUES      = YAML.safe_load(File.read(CONFIG_FILE))
+  VALUES      = YAML.safe_load_file(File.read(CONFIG_FILE))
 end
