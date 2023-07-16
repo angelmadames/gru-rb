@@ -4,8 +4,12 @@ module Config
   module Labels
     module_function
 
-    def colors
+    def list
       Config::VALUES['labels']
+    end
+
+    def names
+      list.keys
     end
 
     def delete_existing?
