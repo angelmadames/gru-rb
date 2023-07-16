@@ -11,9 +11,5 @@ module Config
     def names
       list.keys
     end
-
-    def delete_existing?
-      ENV['DELETE_EXISTING_LABELS'] == 'true'
-    end
   end
 end

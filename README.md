@@ -8,7 +8,7 @@
 - [GitHub Repository Updater](#github-repository-updater)
   - [Summary](#summary)
   - [Setup](#setup)
-  - [Run it!](#run-it)
+  - [Run it](#run-it)
 
 ## Summary
 
@@ -27,8 +27,6 @@ to an specified repository.
 - Create a GitHub [access token](https://github.com/settings/tokens).
 - Create the dotenv (`.env`) file using the example `.env.example`
   file and update it accordingly.
-  - If you don't want existing labels to be deleted, set
-    `DELETE_EXISTING_LABELS` to `false`.
 - Change your settings in the `config.yml` file.
 - Install the script dependencies using `bundle`:
 
@@ -40,15 +38,15 @@ to an specified repository.
   > in the root workspace of this repository. To change this behavior
   > change the value of `BUNDLE_PATH` in `.bundle/config`.
 
-## Run it!
+## Run it
 
 Run the script on your terminal:
 
 ```shell
-bundle exec run.rb add-labels
-bundle exec run.rb remove-labelsg
-bundle exec run.rb update-settings
+bundle exec run.rb labels add
+bundle exec run.rb labels remove
+bundle exec run.rb repo update-settings
 
 bundle exec run.rb help            # Show all available commands
-bundle exec run.rb help add-labels # Show help for a command
+bundle exec run.rb help labels # Show help for a command
 ```
