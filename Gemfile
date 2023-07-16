@@ -4,4 +4,6 @@ source 'https://rubygems.org'
 
 gem 'dotenv'
 gem 'faraday'
+gem 'octokit'
+gem 'terminal-table'
 gem 'thor', '~> 1.2'

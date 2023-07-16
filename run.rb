@@ -9,21 +9,11 @@ class RepositoryUpdater < Thor
     true
   end
 
-  desc 'remove-labels', 'Removes all labels not in config.yml'
-  def remove_labels
-    Labels.remove
-  end
+  desc 'labels', 'Manage labels for a repository'
+  subcommand 'labels', Labels
 
-  desc 'add-labels', 'Add labels to repository'
-  def add_labels
-    Labels.remove if Config::Labels.delete_existing?
-    Labels.add(Config::Labels.colors)
-  end
-
-  desc 'update-settings', 'Updates repository settings'
-  def update_settings
-    Repository.update(Config::Repository.settings)
-  end
+  desc 'repo', 'Manage repository settings'
+  subcommand 'repo', Repo
 end
 
 RepositoryUpdater.start if $PROGRAM_NAME == __FILE__
