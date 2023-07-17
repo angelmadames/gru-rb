@@ -27,6 +27,14 @@ class Repo < Thor
     puts '✅ All default settings were applied!'
   end
 
+  desc 'enable-vulnerability-alerts', 'Enable vulnerability alerts'
+  shared_options
+  def enable_vulnerability_alerts
+    puts "Enable vulnerability alerts for repo: #{options.repo}"
+    GitHub.octokit.enable_vulnerability_alerts(options.repo)
+    puts '✅ Vulnerability alerts were enabled!'
+  end
+
   no_commands do
     def list_default_settings
       rows     = []
