@@ -2,8 +2,9 @@
 
 require 'thor'
 require 'dotenv/load'
-require_relative '../utils/output'
 require_relative '../config/github'
+require_relative '../utils/log'
+require_relative '../utils/output'
 
 class Labels < Thor
   def self.shared_options
@@ -39,30 +40,31 @@ class Labels < Thor
       next if existing.include?(name)
 
       GitHub.octokit.add_label(options.repo, name, color)
-      puts "Added label: #{name}"
+      Log.info "Added label: #{name}"
     end
-    puts '✅ All labels were successfully added.'
+
+    Log.success 'All labels were successfully added.'
   end
 
   desc 'remove', 'Removes existing repo labels not in config yaml file'
   shared_options
   def remove
-    puts "Removing existing labels to repo: #{options.repo}"
-    return if existing_labels.empty?
+    Log.info "Removing existing labels to repo: #{options.repo}"
+    return if existing_labels(options.repo).empty?
 
-    existing_labels.each do |name|
+    existing_labels(options.repo).each do |name|
       if Config::Labels.list.include? name
-        puts "Not removed, meant to be added anyway: #{name}"
+        Log.info "Not removed, meant to be added anyway: #{name}"
       else
         GitHub.octokit.delete_label!(options.repo, name)
       end
     end
 
-    puts '✅ All labels (not in config) were successfully removed.'
+    Log.success '✅ All labels (not in config) were successfully removed.'
   end
 
   no_commands do
-    def existing_labels(repo)
+    def existing_labels(repo = GitHub.repo_full_name)
       Set.new(GitHub.octokit.labels(repo).map(&:name))
     end
   end

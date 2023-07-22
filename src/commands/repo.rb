@@ -18,21 +18,22 @@ class Repo < Thor
   desc 'update-settings', 'Update repository settings using default config'
   shared_options
   def update_settings
-    puts "Updating settings for repo: #{options.repo}"
-    puts 'Settings to be applied:'
+    Log.info "Updating settings for repo: #{options.repo}"
+
+    Log.info 'Settings to be applied:'
     list_default_settings
 
     GitHub.octokit.edit_repository(options.repo, Config::Repository.settings)
 
-    puts '✅ All default settings were applied!'
+    Log.success 'All default settings were applied!'
   end
 
   desc 'enable-vulnerability-alerts', 'Enable vulnerability alerts'
   shared_options
   def enable_vulnerability_alerts
-    puts "Enable vulnerability alerts for repo: #{options.repo}"
+    Log.info "Enable vulnerability alerts for repo: #{options.repo}"
     GitHub.octokit.enable_vulnerability_alerts(options.repo)
-    puts '✅ Vulnerability alerts were enabled!'
+    Log.success 'Vulnerability alerts were enabled!'
   end
 
   no_commands do
@@ -45,6 +46,10 @@ class Repo < Thor
       end
 
       puts_table('Default repo settings', headings, rows)
+    end
+
+    def list_all_repositories_from_org
+      GitHub.octokit.organization_repositories(GitHub::OWNER).map(&:full_name)
     end
   end
 end

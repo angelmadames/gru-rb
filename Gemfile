@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'colorize'
 gem 'dotenv'
 gem 'faraday'
 gem 'octokit'
