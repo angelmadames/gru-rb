@@ -13,7 +13,7 @@ class Labels < Thor
       :type    => :string,
       :aliases => '-r',
       :desc    => 'Git repository to list existing labels for',
-      :default => GitHub.repo_full_name
+      :default => GitHub.current_repo_full_name
     )
   end
 
@@ -22,8 +22,9 @@ class Labels < Thor
   def list
     rows     = []
     headings = %w[name color]
+    labels   = GitHub.octokit.labels(options.repo)
 
-    GitHub.octokit.labels(options.repo).each do |label|
+    labels.each do |label|
       rows << [label.name, label.color]
     end
 
@@ -64,7 +65,7 @@ class Labels < Thor
   end
 
   no_commands do
-    def existing_labels(repo = GitHub.repo_full_name)
+    def existing_labels(repo = GitHub.current_repo_full_name)
       Set.new(GitHub.octokit.labels(repo).map(&:name))
     end
   end

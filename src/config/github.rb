@@ -6,15 +6,23 @@ require 'octokit'
 module GitHub
   module_function
 
-  OWNER = ENV.fetch('GITHUB_OWNER')
-  REPO  = ENV.fetch('GITHUB_REPO')
-  TOKEN = ENV.fetch('GITHUB_TOKEN')
-
-  def octokit
-    Octokit::Client.new(:access_token => TOKEN)
+  def token
+    ENV.fetch('GITHUB_TOKEN')
   end
 
-  def repo_full_name
-    "#{OWNER}/#{REPO}"
+  def octokit
+    Octokit::Client.new(:access_token => token)
+  end
+
+  def organization
+    ENV.fetch('GITHUB_OWNER')
+  end
+
+  def current_repo
+    ENV.fetch('GITHUB_REPO')
+  end
+
+  def current_repo_full_name
+    "#{organization}/#{current_repo}"
   end
 end
