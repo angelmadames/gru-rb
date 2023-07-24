@@ -45,8 +45,9 @@ Run the script on your terminal:
 ```shell
 bundle exec run.rb labels add
 bundle exec run.rb labels remove
-bundle exec run.rb repo update-settings
+bundle exec run.rb repo update
+bundle exec run.rb repo update-all
 
-bundle exec run.rb help            # Show all available commands
-bundle exec run.rb help labels # Show help for a command
+bundle exec run.rb help         # Show all available commands
+bundle exec run.rb help labels  # Show help for a command
 ```
