@@ -8,6 +8,10 @@ Style/Documentation:
 Style/HashSyntax:
   Enabled: false
 
+# TODO: Reduce this value to default.
+Metrics/AbcSize:
+  Max: 20
+
 Metrics/MethodLength:
   Enabled: false
 
