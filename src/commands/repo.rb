@@ -5,7 +5,7 @@ require 'dotenv/load'
 require_relative '../utils/output'
 
 class Repo < Thor
-  def self.shared_options
+  def self.repo_option
     option(
       :repo,
       :type    => :string,
@@ -15,8 +15,18 @@ class Repo < Thor
     )
   end
 
+  def self.organization_option
+    option(
+      :org,
+      :type    => :string,
+      :aliases => '-o',
+      :desc    => 'GitHub organization to apply settings to',
+      :default => GitHub.organization
+    )
+  end
+
   desc 'update', 'Update repository settings using default config'
-  shared_options
+  repo_option
   def update
     Log.info "Updating settings for repo: #{options.repo}"
     list_default_settings
@@ -27,18 +37,12 @@ class Repo < Thor
   end
 
   desc 'update-all', 'Update settings for all repositories in current organization'
-  option(
-    :org,
-    :type    => :string,
-    :aliases => '-o',
-    :desc    => 'GitHub organization to apply settings to',
-    :default => GitHub.organization
-  )
+  organization_option
   def update_all
     Log.info "Updating settings for org: #{options.org}"
     list_default_settings
 
-    list_all_repositories_from_org.reverse.each do |repo|
+    list_all_repositories_from_org.each do |repo|
       GitHub.octokit.edit_repository(
         repo,
         Config::Repository.settings.merge({ 'name' => repo })
@@ -50,7 +54,7 @@ class Repo < Thor
   end
 
   desc 'enable-vulnerability-alerts', 'Enable vulnerability alerts'
-  shared_options
+  repo_option
   def enable_vulnerability_alerts
     Log.info "Enable vulnerability alerts for repo: #{options.repo}"
     GitHub.octokit.enable_vulnerability_alerts(options.repo)
@@ -71,7 +75,9 @@ class Repo < Thor
     end
 
     def list_all_repositories_from_org
-      GitHub.octokit.organization_repositories(GitHub.organization).map(&:full_name)
+      GitHub.octokit.organization_repositories(GitHub.organization)
+            .reject(&:archived)
+            .map(&:full_name)
     end
   end
 end
