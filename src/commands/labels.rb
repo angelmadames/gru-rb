@@ -7,7 +7,7 @@ require_relative '../utils/log'
 require_relative '../utils/output'
 
 class Labels < Thor
-  def self.shared_options
+  def self.repo_option
     option(
       :repo,
       :type    => :string,
@@ -18,7 +18,7 @@ class Labels < Thor
   end
 
   desc 'list', 'List labels for the specified repo'
-  shared_options
+  repo_option
   def list
     rows     = []
     headings = %w[name color]
@@ -32,7 +32,7 @@ class Labels < Thor
   end
 
   desc 'add', 'Add config.yml labels to the specified repo'
-  shared_options
+  repo_option
   def add
     puts "Adding labels to repo: #{options.repo}"
     existing = existing_labels(options.repo)
@@ -48,7 +48,7 @@ class Labels < Thor
   end
 
   desc 'remove', 'Removes existing repo labels not in config yaml file'
-  shared_options
+  repo_option
   def remove
     Log.info "Removing existing labels to repo: #{options.repo}"
     return if existing_labels(options.repo).empty?

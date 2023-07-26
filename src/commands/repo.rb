@@ -75,7 +75,9 @@ class Repo < Thor
     end
 
     def list_all_repositories_from_org
-      GitHub.octokit.organization_repositories(GitHub.organization)
+      client = GitHub.octokit
+      client.auto_paginate = true
+      client.organization_repositories(GitHub.organization)
             .reject(&:archived)
             .map(&:full_name)
     end
