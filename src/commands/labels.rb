@@ -5,20 +5,11 @@ require 'dotenv/load'
 require_relative '../config/github'
 require_relative '../utils/log'
 require_relative '../utils/output'
+require_relative '../options/common'
 
 class Labels < Thor
-  def self.repo_option
-    option(
-      :repo,
-      :type    => :string,
-      :aliases => '-r',
-      :desc    => 'Git repository to list existing labels for',
-      :default => GitHub.current_repo_full_name
-    )
-  end
-
   desc 'list', 'List labels for the specified repo'
-  repo_option
+  option(*CommonOptions.repo)
   def list
     rows     = []
     headings = %w[name color]
@@ -31,29 +22,45 @@ class Labels < Thor
     puts_table("Labels for repo: #{options.repo}", headings, rows)
   end
 
-  desc 'add', 'Add config.yml labels to the specified repo'
-  repo_option
-  def add
-    puts "Adding labels to repo: #{options.repo}"
-    existing = existing_labels(options.repo)
+  desc 'update', 'Add labels in config.yml to the specified repo'
+  option(*CommonOptions.repo)
+  def update
+    puts "Updating labels for repo: #{options.repo}"
+    existing_labels = existing_labels_in_repo(options.repo)
 
-    Config::Labels.list.each do |name, color|
-      next if existing.include?(name)
+    default_labels_list.each do |name, color|
+      next if existing_labels.include?(name)
 
       GitHub.octokit.add_label(options.repo, name, color)
-      Log.info "Added label: #{name}"
+      Log.info "Label added: #{name}"
+    end
+
+    Log.success 'All labels were successfully added.'
+  end
+
+  desc 'update-all', 'Add labels in config.yml to repos in specified org'
+  option(*CommonOptions.org)
+  def update_all
+    puts "Updating labels for repo: #{options.repo}"
+    existing_labels = existing_labels_in_repo(options.repo)
+
+    default_labels_list.each do |name, color|
+      next if existing_labels.include?(name)
+
+      GitHub.octokit.add_label(options.repo, name, color)
+      Log.info "Label added: #{name}"
     end
 
     Log.success 'All labels were successfully added.'
   end
 
   desc 'remove', 'Removes existing repo labels not in config yaml file'
-  repo_option
+  option(*CommonOptions.repo)
   def remove
     Log.info "Removing existing labels to repo: #{options.repo}"
-    return if existing_labels(options.repo).empty?
+    return if existing_labels_in_repo(options.repo).empty?
 
-    existing_labels(options.repo).each do |name|
+    existing_labels_in_repo(options.repo).each do |name|
       if Config::Labels.list.include? name
         Log.info "Not removed, meant to be added anyway: #{name}"
       else
@@ -65,8 +72,12 @@ class Labels < Thor
   end
 
   no_commands do
-    def existing_labels(repo = GitHub.current_repo_full_name)
-      Set.new(GitHub.octokit.labels(repo).map(&:name))
+    def existing_labels_in_repo(repo = GitHub.current_repo_full_name)
+      GitHub.octokit.labels(repo).map(&:name)
+    end
+
+    def default_labels_list
+      Config::Labels.list.freeze
     end
   end
 end
