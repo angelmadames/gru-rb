@@ -23,7 +23,7 @@ class Repo < Thor
     Log.info "Updating settings for org: #{options.org}"
     list_default_settings
 
-    list_all_repositories_from_org.each do |repo|
+    GitHub.list_all_repositories_from_org.each do |repo|
       GitHub.octokit.edit_repository(
         repo,
         Config::Repository.settings.merge({ 'name' => repo })
@@ -53,14 +53,6 @@ class Repo < Thor
 
       Log.info 'Settings to be applied:'
       puts_table('Default repo settings', headings, rows)
-    end
-
-    def list_all_repositories_from_org
-      client               = GitHub.octokit
-      client.auto_paginate = true
-      client.organization_repositories(GitHub.organization)
-            .reject(&:archived)
-            .map(&:full_name)
     end
   end
 end

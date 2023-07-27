@@ -41,17 +41,20 @@ class Labels < Thor
   desc 'update-all', 'Add labels in config.yml to repos in specified org'
   option(*CommonOptions.org)
   def update_all
-    puts "Updating labels for repo: #{options.repo}"
-    existing_labels = existing_labels_in_repo(options.repo)
+    puts "Updating labels for all repos in org: #{options.org}"
 
-    default_labels_list.each do |name, color|
-      next if existing_labels.include?(name)
+    GitHub.list_all_repositories_from_org.each do |repo|
+      existing_labels = existing_labels_in_repo(repo)
 
-      GitHub.octokit.add_label(options.repo, name, color)
-      Log.info "Label added: #{name}"
+      default_labels_list.each do |name, color|
+        next if existing_labels.include?(name)
+
+        GitHub.octokit.add_label(repo, name, color)
+      end
+      Log.success "Labels updated for: #{repo}"
     end
 
-    Log.success 'All labels were successfully added.'
+    Log.success 'All labels were successfully updated for all repositories.'
   end
 
   desc 'remove', 'Removes existing repo labels not in config yaml file'
