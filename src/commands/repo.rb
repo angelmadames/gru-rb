@@ -3,30 +3,11 @@
 require 'thor'
 require 'dotenv/load'
 require_relative '../utils/output'
+require_relative '../options/common'
 
 class Repo < Thor
-  def self.repo_option
-    option(
-      :repo,
-      :type    => :string,
-      :aliases => '-r',
-      :desc    => 'Git repository to list existing labels for',
-      :default => GitHub.current_repo_full_name
-    )
-  end
-
-  def self.organization_option
-    option(
-      :org,
-      :type    => :string,
-      :aliases => '-o',
-      :desc    => 'GitHub organization to apply settings to',
-      :default => GitHub.organization
-    )
-  end
-
   desc 'update', 'Update repository settings using default config'
-  repo_option
+  option *CommonOptions.repo
   def update
     Log.info "Updating settings for repo: #{options.repo}"
     list_default_settings
@@ -37,7 +18,7 @@ class Repo < Thor
   end
 
   desc 'update-all', 'Update settings for all repositories in current organization'
-  organization_option
+  option *CommonOptions.org
   def update_all
     Log.info "Updating settings for org: #{options.org}"
     list_default_settings
@@ -54,7 +35,7 @@ class Repo < Thor
   end
 
   desc 'enable-vulnerability-alerts', 'Enable vulnerability alerts'
-  repo_option
+  option *CommonOptions.repo
   def enable_vulnerability_alerts
     Log.info "Enable vulnerability alerts for repo: #{options.repo}"
     GitHub.octokit.enable_vulnerability_alerts(options.repo)
