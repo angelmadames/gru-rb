@@ -11,7 +11,9 @@ module GitHub
   end
 
   def octokit
-    Octokit::Client.new(:access_token => token)
+    client               = Octokit::Client.new(:access_token => token)
+    client.auto_paginate = true
+    client
   end
 
   def organization
@@ -24,5 +26,12 @@ module GitHub
 
   def current_repo_full_name
     "#{organization}/#{current_repo}"
+  end
+
+  def list_all_repositories_from_org
+    octokit
+      .organization_repositories(GitHub.organization)
+      .reject(&:archived)
+      .map(&:full_name)
   end
 end
