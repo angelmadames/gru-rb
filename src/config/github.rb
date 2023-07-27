@@ -11,9 +11,10 @@ module GitHub
   end
 
   def octokit
-    client               = Octokit::Client.new(:access_token => token)
-    client.auto_paginate = true
-    client
+    Octokit::Client.new(
+      :access_token  => token,
+      :auto_paginate => true
+    )
   end
 
   def organization
