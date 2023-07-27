@@ -9,7 +9,7 @@ require_relative '../options/common'
 
 class Labels < Thor
   desc 'list', 'List labels for the specified repo'
-  option *CommonOptions.repo
+  option(*CommonOptions.repo)
   def list
     rows     = []
     headings = %w[name color]
@@ -23,7 +23,7 @@ class Labels < Thor
   end
 
   desc 'update', 'Add labels in config.yml to the specified repo'
-  option *CommonOptions.repo
+  option(*CommonOptions.repo)
   def update
     puts "Updating labels for repo: #{options.repo}"
     existing_labels = existing_labels_in_repo(options.repo)
@@ -39,7 +39,7 @@ class Labels < Thor
   end
 
   desc 'update-all', 'Add labels in config.yml to repos in specified org'
-  option *CommonOptions.org
+  option(*CommonOptions.org)
   def update_all
     puts "Updating labels for repo: #{options.repo}"
     existing_labels = existing_labels_in_repo(options.repo)
@@ -55,7 +55,7 @@ class Labels < Thor
   end
 
   desc 'remove', 'Removes existing repo labels not in config yaml file'
-  option *CommonOptions.repo
+  option(*CommonOptions.repo)
   def remove
     Log.info "Removing existing labels to repo: #{options.repo}"
     return if existing_labels_in_repo(options.repo).empty?

@@ -7,7 +7,7 @@ require_relative '../options/common'
 
 class Repo < Thor
   desc 'update', 'Update repository settings using default config'
-  option *CommonOptions.repo
+  option(*CommonOptions.repo)
   def update
     Log.info "Updating settings for repo: #{options.repo}"
     list_default_settings
@@ -18,7 +18,7 @@ class Repo < Thor
   end
 
   desc 'update-all', 'Update settings for all repositories in current organization'
-  option *CommonOptions.org
+  option(*CommonOptions.org)
   def update_all
     Log.info "Updating settings for org: #{options.org}"
     list_default_settings
@@ -35,7 +35,7 @@ class Repo < Thor
   end
 
   desc 'enable-vulnerability-alerts', 'Enable vulnerability alerts'
-  option *CommonOptions.repo
+  option(*CommonOptions.repo)
   def enable_vulnerability_alerts
     Log.info "Enable vulnerability alerts for repo: #{options.repo}"
     GitHub.octokit.enable_vulnerability_alerts(options.repo)
@@ -56,7 +56,7 @@ class Repo < Thor
     end
 
     def list_all_repositories_from_org
-      client = GitHub.octokit
+      client               = GitHub.octokit
       client.auto_paginate = true
       client.organization_repositories(GitHub.organization)
             .reject(&:archived)
