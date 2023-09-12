@@ -21,6 +21,3 @@ Layout/ExtraSpacing:
 Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
-
-Style/YAMLFileRead:
-  Enabled: false
