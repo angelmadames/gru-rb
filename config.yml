@@ -14,7 +14,7 @@ repository:
 # Label names and their respective colors
 labels:
   bugfix: F9D0C4
-  doc: 0075ca
+  doc: 0075CA
   enhance: AFC7F1
   feature: 0052CC
   review_approved: 0E8A16

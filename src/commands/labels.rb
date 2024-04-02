@@ -6,6 +6,7 @@ require_relative '../config/github'
 require_relative '../utils/log'
 require_relative '../utils/output'
 require_relative '../options/common'
+require_relative '../utils/labels'
 
 class Labels < Thor
   desc 'list', 'List labels for the specified repo'
@@ -45,41 +46,4 @@ class Labels < Thor
     delete_labels(options.repo)
     Log.success '✅ All labels (not in config) were successfully removed.'
   end
-
-  # rubocop:disable Metrics/BlockLength
-  no_commands do
-    def add_labels(repo = GitHub.current_repo_full_name)
-      Log.info "Adding labels to repo: #{repo}"
-      default_labels_list.each do |name, color|
-        next if existing_labels_in_repo(repo).include?(name)
-
-        GitHub.octokit.add_label(repo, name, color)
-        Log.info "Label added: #{name}"
-      end
-      Log.success "Labels updated for: #{repo}"
-    end
-
-    def delete_labels(repo = GitHub.current_repo_full_name)
-      existing_labels_in_repo(repo).each do |name|
-        if default_labels_list.include? name
-          Log.info "Not removed, meant to be added anyway: #{name}"
-        else
-          GitHub.octokit.delete_label!(options.repo, name)
-        end
-      end
-    end
-
-    def existing_labels_in_repo(repo = GitHub.current_repo_full_name)
-      GitHub.octokit.labels(repo).map(&:name)
-    end
-
-    def default_labels_list
-      Config::Labels.list.freeze
-    end
-
-    def default_labels_minus_existing(repo = GitHub.current_repo_full_name)
-      existing_labels_in_repo(repo) + default_labels_list
-    end
-  end
-  # rubocop:enable Metrics/BlockLength
 end

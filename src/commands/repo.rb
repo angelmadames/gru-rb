@@ -4,6 +4,7 @@ require 'thor'
 require 'dotenv/load'
 require_relative '../utils/output'
 require_relative '../options/common'
+require_relative '../utils/repo'
 
 class Repo < Thor
   desc 'update', 'Update repository settings using default config'
@@ -40,19 +41,5 @@ class Repo < Thor
     Log.info "Enable vulnerability alerts for repo: #{options.repo}"
     GitHub.octokit.enable_vulnerability_alerts(options.repo)
     Log.success 'Vulnerability alerts were enabled!'
-  end
-
-  no_commands do
-    def list_default_settings
-      rows     = []
-      headings = %w[setting value]
-
-      Config::Repository.settings.each do |setting, value|
-        rows << [setting, value]
-      end
-
-      Log.info 'Settings to be applied:'
-      puts_table('Default repo settings', headings, rows)
-    end
   end
 end
