@@ -2,7 +2,7 @@
 
 # GitHub Repository Updater
 
-![lint](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml/badge.svg)
+[![tests](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml/badge.svg)](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml)
 
 <!-- omit in toc -->
 - [GitHub Repository Updater](#github-repository-updater)
@@ -34,20 +34,16 @@ to an specified repository.
   bundle install
   ```
 
-  > :warning: All gems will be installed in the `vendor/` directory
-  > in the root workspace of this repository. To change this behavior
-  > change the value of `BUNDLE_PATH` in `.bundle/config`.
-
 ## Run it
 
 Run the script on your terminal:
 
 ```shell
-bundle exec run.rb labels add
-bundle exec run.rb labels remove
-bundle exec run.rb repo update
-bundle exec run.rb repo update-all
+./run.rb labels add
+./run.rb labels remove
+./run.rb repo update
+./run.rb repo update-all
 
-bundle exec run.rb help         # Show all available commands
-bundle exec run.rb help labels  # Show help for a command
+./run.rb help         # Show all available commands
+./run.rb help labels  # Show help for a command
 ```
