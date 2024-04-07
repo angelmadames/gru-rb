@@ -14,6 +14,9 @@ class RepositoryUpdater < Thor
 
   desc 'repo', 'Manage repository settings'
   subcommand 'repo', Repo
+
+  desc 'tags', 'Manage tags for a repository'
+  subcommand 'tags', Tags
 end
 
 RepositoryUpdater.start if $PROGRAM_NAME == __FILE__
