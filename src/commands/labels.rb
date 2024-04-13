@@ -12,12 +12,11 @@ class Labels < Thor
   desc 'list', 'List labels for the specified repo'
   option(*CommonOptions.repo)
   def list
-    rows     = []
     headings = %w[name color]
     labels   = GitHub.octokit.labels(options.repo)
 
-    labels.each do |label|
-      rows << [label.name, label.color]
+    rows = labels.map do |label|
+      [label.name, label.color]
     end
 
     puts_table("Labels for repo: #{options.repo}", headings, rows)

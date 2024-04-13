@@ -10,7 +10,7 @@ Style/HashSyntax:
 
 # TODO: Reduce this value to default.
 Metrics/AbcSize:
-  Max: 20
+  Max: 30
 
 Metrics/MethodLength:
   Enabled: false

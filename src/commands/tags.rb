@@ -13,20 +13,26 @@ class Tags < Thor
   desc 'list', 'List tags for the specified repo'
   option(*CommonOptions.repo)
   def list
-    rows     = []
-    headings = %w[tag commit]
-    tags     = GitHub.octokit.tags(options.repo)
-
-    tags.each do |tag|
-      rows << [tag.name, tag.commit.sha]
-    end
-
-    puts_table("Tags for repo: #{options.repo}", headings, rows)
+    tags = GitHub.octokit.tags(options.repo)
+    list_tags(tags)
   end
 
   desc 'count', 'Count tags for the specified repo'
   option(*CommonOptions.repo)
   def count
     count_tags(options.repo)
+  end
+
+  desc 'remove-stale', 'Remove old tags from the specified repo'
+  option(*CommonOptions.repo)
+  option(:limit, :type => :numeric, :default => 100, :desc => 'Quantity of tags to preserve')
+  def remove_stale
+    count
+    if GitHub.octokit.tags(options.repo).size > options.limit
+      list_tags_after_limit(options.repo, options.limit)
+      delete_tag(tags_after_limit(options.repo, options.limit))
+    else
+      puts "Tags count does not exceed specified limit (#{options.limit})."
+    end
   end
 end
