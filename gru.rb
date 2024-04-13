@@ -4,7 +4,7 @@
 require 'thor'
 Dir['src/**/*.rb'].each { |file| require_relative file }
 
-class RepositoryUpdater < Thor
+class Gru < Thor
   def self.exit_on_failure?
     true
   end
@@ -19,4 +19,4 @@ class RepositoryUpdater < Thor
   subcommand 'tags', Tags
 end
 
-RepositoryUpdater.start if $PROGRAM_NAME == __FILE__
+Gru.start if $PROGRAM_NAME == __FILE__

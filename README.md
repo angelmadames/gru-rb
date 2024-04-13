@@ -1,28 +1,30 @@
 <!-- omit in toc -->
-
-# GitHub Repository Updater
+# gru ― GitHub Repository Updater Tool
 
 [![tests](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml/badge.svg)](https://github.com/angelmadames/github-repo-updater/actions/workflows/rubocop.yml)
 
 <!-- omit in toc -->
-- [GitHub Repository Updater](#github-repository-updater)
-  - [Summary](#summary)
-  - [Setup](#setup)
-  - [Run it](#run-it)
+- [📒 Summary](#-summary)
+- [⚙️ Setup](#️-setup)
+- [🚀 Run it](#-run-it)
+  - [ℹ️ Help](#ℹ️-help)
+  - [➡️ Update labels](#️-update-labels)
+  - [➡️ Update repo settings](#️-update-repo-settings)
+  - [➡️ Remove old tags](#️-remove-old-tags)
 
-## Summary
+## 📒 Summary
 
-I got really tired of manually updating default settings on each repository
-I had to manage. GitHub, specifically, allows you to set default settings
-at the organization level for new repositories but it is not possible to
-apply those to previously created repositories automatically.
+I got tired of manually updating default settings, adding labels, and rotating
+old tags on each repository. GitHub, specifically, allows you to set default
+settings  at the organization level for new repositories but it is not possible
+to  apply those to previously created repositories automatically.
 
 The purpose of this script is to set a default set of labels
 to an specified repository.
 
 > Made with Ruby :gem: for learning purposes.
 
-## Setup
+## ⚙️ Setup
 
 - Create a GitHub [access token](https://github.com/settings/tokens).
 - Create the dotenv (`.env`) file using the example `.env.example`
@@ -34,16 +36,34 @@ to an specified repository.
   bundle install
   ```
 
-## Run it
+## 🚀 Run it
 
 Run the script on your terminal:
 
-```shell
-./run.rb labels add
-./run.rb labels remove
-./run.rb repo update
-./run.rb repo update-all
+### ℹ️ Help
 
-./run.rb help         # Show all available commands
-./run.rb help labels  # Show help for a command
+```shell
+./gru.rb help         # Show all available commands
+./gru.rb help labels  # Show help for a command
+```
+
+### ➡️ Update labels
+
+```shell
+./gru.rb labels add
+./gru.rb labels remove
+```
+
+### ➡️ Update repo settings
+
+```shell
+./gru.rb repo update
+./gru.rb repo update-all
+```
+
+### ➡️ Remove old tags
+
+```shell
+./gru.rb tags list
+./gru.rb tags remove-stale
 ```
