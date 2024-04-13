@@ -14,13 +14,13 @@ class Tags < Thor
   option(*CommonOptions.repo)
   def list
     tags = GitHub.octokit.tags(options.repo)
-    list_tags(tags)
+    Utils::Tags.list(tags)
   end
 
   desc 'count', 'Count tags for the specified repo'
   option(*CommonOptions.repo)
   def count
-    count_tags(options.repo)
+    Utils::Tags.count(options.repo)
   end
 
   desc 'remove-stale', 'Remove old tags from the specified repo'
@@ -29,8 +29,8 @@ class Tags < Thor
   def remove_stale
     count
     if GitHub.octokit.tags(options.repo).size > options.limit
-      list_tags_after_limit(options.repo, options.limit)
-      delete_tag(tags_after_limit(options.repo, options.limit))
+      Utils::Tags.list_after_limit(options.repo, options.limit)
+      Utils::Tags.delete(Utils::Tags.after_limit(options.repo, options.limit))
     else
       puts "Tags count does not exceed specified limit (#{options.limit})."
     end

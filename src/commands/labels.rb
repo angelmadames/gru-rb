@@ -25,14 +25,14 @@ class Labels < Thor
   desc 'update', 'Add labels in config.yml to the specified repo'
   option(*CommonOptions.repo)
   def update
-    add_labels(options.repo)
+    Utils::Labels.add(options.repo)
   end
 
   desc 'update-all', 'Add labels in config.yml to repos in specified org'
   option(*CommonOptions.org)
   def update_all
     puts "Updating labels for all repos in org: #{options.org}"
-    GitHub.list_all_repositories_from_org.each { |repo| add_labels(repo) }
+    GitHub.list_all_repositories_from_org.each { |repo| Utils::Labels.add(repo) }
     Log.success 'All labels were successfully updated for all repositories.'
   end
 
@@ -40,9 +40,9 @@ class Labels < Thor
   option(*CommonOptions.repo)
   def remove
     Log.info "Removing existing labels to repo: #{options.repo}"
-    return if existing_labels_in_repo(options.repo).empty?
+    return if Utils::Labels.existing(options.repo).empty?
 
-    delete_labels(options.repo)
+    Utils::Labels.delete(options.repo)
     Log.success '✅ All labels (not in config) were successfully removed.'
   end
 end

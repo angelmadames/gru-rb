@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Config
-  module Repository
+  module Repo
     module_function
 
     def settings
