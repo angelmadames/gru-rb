@@ -11,7 +11,7 @@ class Repo < Thor
   option(*CommonOptions.repo)
   def update
     Log.info "Updating settings for repo: #{options.repo}"
-    list_default_settings
+    Utils::Repo.list_default_settings
 
     GitHub.octokit.edit_repository(options.repo, Config::Repo.settings)
 

@@ -17,7 +17,7 @@ module Utils
       end
 
       Log.info 'Settings to be applied:'
-      puts_table('Default repo settings', headings, rows)
+      Utils::Output.puts_table('Default repo settings', headings, rows)
     end
   end
 end

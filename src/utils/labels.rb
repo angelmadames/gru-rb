@@ -6,41 +6,42 @@ require_relative '../config/github'
 require_relative 'log'
 require_relative 'output'
 
-module Utils
-  module Labels
-    module_function
+module Utils::Labels
+  module_function
 
-    def add(repo = GitHub.current_repo_full_name)
-      Log.info "Adding labels to repo: #{repo}"
-      default_list.each do |name, color|
-        next if existing(repo).include?(name)
+  def add(repo = GitHub.current_repo_full_name)
+    Log.info "Adding labels to repo: #{repo}"
 
-        GitHub.octokit.add_label(repo, name, color)
-        Log.info "Label added: #{name}"
+    existing_labels = existing_labels_from_repo(repo)
+    labels_to_add   = default_labels_list.except(*existing_labels)
+
+    labels_to_add.each do |name, color|
+      GitHub.octokit.add_label(repo, name, color)
+      Log.info "Label added: #{name}"
+    end
+
+    Log.success "Labels updated for: #{repo}"
+  end
+
+  def delete(repo = GitHub.current_repo_full_name)
+    existing(repo).each do |name|
+      if default_list.include? name
+        Log.info "Not removed, meant to be added anyway: #{name}"
+      else
+        GitHub.octokit.delete_label!(options.repo, name)
       end
-      Log.success "Labels updated for: #{repo}"
     end
+  end
 
-    def delete(repo = GitHub.current_repo_full_name)
-      existing(repo).each do |name|
-        if default_list.include? name
-          Log.info "Not removed, meant to be added anyway: #{name}"
-        else
-          GitHub.octokit.delete_label!(options.repo, name)
-        end
-      end
-    end
+  def existing_labels_from_repo(repo = GitHub.current_repo_full_name)
+    GitHub.octokit.labels(repo).map(&:name)
+  end
 
-    def existing(repo = GitHub.current_repo_full_name)
-      GitHub.octokit.labels(repo).map(&:name)
-    end
+  def default_labels_list
+    Config::Labels.list.freeze
+  end
 
-    def default_list
-      Config::Labels.list.freeze
-    end
-
-    def default_minus_existing(repo = GitHub.current_repo_full_name)
-      existing(repo) + default_list
-    end
+  def default_minus_existing(repo = GitHub.current_repo_full_name)
+    existing(repo) + default_list
   end
 end

@@ -19,7 +19,7 @@ class Labels < Thor
       [label.name, label.color]
     end
 
-    puts_table("Labels for repo: #{options.repo}", headings, rows)
+    Utils::Output.puts_table("Labels for repo: #{options.repo}", headings, rows)
   end
 
   desc 'update', 'Add labels in config.yml to the specified repo'

@@ -12,6 +12,9 @@ Style/HashSyntax:
 Metrics/AbcSize:
   Max: 30
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Metrics/MethodLength:
   Enabled: false
 
