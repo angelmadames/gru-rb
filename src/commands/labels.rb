@@ -15,9 +15,7 @@ class Labels < Thor
     headings = %w[name color]
     labels   = GitHub.octokit.labels(options.repo)
 
-    rows = labels.map do |label|
-      [label.name, label.color]
-    end
+    rows = labels.map { |label| [label.name, label.color] }
 
     Utils::Output.puts_table("Labels for repo: #{options.repo}", headings, rows)
   end
@@ -40,7 +38,7 @@ class Labels < Thor
   option(*CommonOptions.repo)
   def remove
     Log.info "Removing existing labels to repo: #{options.repo}"
-    return if Utils::Labels.existing(options.repo).empty?
+    return if Utils::Labels.existing_labels_from_repo(options.repo).empty?
 
     Utils::Labels.delete(options.repo)
     Log.success '✅ All labels (not in config) were successfully removed.'

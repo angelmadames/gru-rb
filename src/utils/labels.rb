@@ -24,8 +24,8 @@ module Utils::Labels
   end
 
   def delete(repo = GitHub.current_repo_full_name)
-    existing(repo).each do |name|
-      if default_list.include? name
+    existing_labels_from_repo(repo).each do |name|
+      if default_labels_list.include? name
         Log.info "Not removed, meant to be added anyway: #{name}"
       else
         GitHub.octokit.delete_label!(options.repo, name)
@@ -42,6 +42,6 @@ module Utils::Labels
   end
 
   def default_minus_existing(repo = GitHub.current_repo_full_name)
-    existing(repo) + default_list
+    existing_labels_from_repo(repo) + default_labels_list
   end
 end
