@@ -5,7 +5,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     colorize (1.1.0)
-    dotenv (3.1.2)
+    dotenv (3.1.4)
     faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
       json
