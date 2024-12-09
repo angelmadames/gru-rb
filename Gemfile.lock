@@ -6,7 +6,7 @@ GEM
     ast (2.4.2)
     colorize (1.1.0)
     dotenv (3.1.4)
-    faraday (2.12.1)
+    faraday (2.12.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -14,7 +14,7 @@ GEM
       net-http
     json (2.8.2)
     language_server-protocol (3.17.0.3)
-    logger (1.6.1)
+    logger (1.6.2)
     net-http (0.4.1)
       uri
     octokit (9.2.0)
