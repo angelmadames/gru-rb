@@ -8,4 +8,4 @@ gem 'faraday'
 gem 'octokit'
 gem 'rubocop', group: 'development', require: false
 gem 'terminal-table'
-gem 'thor', '~> 1.2'
+gem 'thor', '~> 1.4'
